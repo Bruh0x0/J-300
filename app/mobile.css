@@ -38,30 +38,48 @@
 /* Breathing room for wide, shorter desktop screens */
 @media (min-width: 1450px) and (max-width: 1899px) {
   .view-stage > .community-home {
-    width: min(1660px, calc(100% - 80px));
-    grid-template-columns: minmax(450px, 500px) minmax(270px, 310px) minmax(500px, 560px);
-    justify-content: center;
-    column-gap: clamp(70px, 4.5vw, 88px);
+    width: min(1700px, calc(100% - 48px));
+    grid-template-columns: clamp(430px, 26vw, 460px) clamp(240px, 15vw, 270px) clamp(500px, 31.5vw, 560px);
+    justify-content: space-between;
+    column-gap: 0;
     translate: 0;
   }
 
   .community-copy {
     width: 100%;
-    max-width: 500px;
+    max-width: 460px;
   }
 
   .community-copy h1 {
-    font-size: clamp(60px, 3.8vw, 68px);
+    font-size: clamp(58px, 3.65vw, 66px);
     line-height: 0.88;
   }
 
   .logo-block {
-    width: min(300px, 100%);
+    width: min(270px, 100%);
   }
 
   .community-home .world-slider {
     width: min(100%, 560px);
     max-width: 560px;
+  }
+}
+
+@media (min-width: 1900px) {
+  .view-stage > .community-home {
+    width: min(1780px, calc(100% - 64px));
+    grid-template-columns: 500px 280px 620px;
+    justify-content: space-between;
+    column-gap: 0;
+  }
+
+  .community-home .logo-block {
+    width: 280px;
+  }
+
+  .community-home .world-slider {
+    width: 620px;
+    max-width: 620px;
   }
 }
 
