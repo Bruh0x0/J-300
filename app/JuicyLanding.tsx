@@ -154,6 +154,7 @@ function HomeView({ onRust }: { onRust: () => void }) {
 function RustView() {
   const [copied, setCopied] = useState(false);
   const serverAddress = "51.77.65.104:28015";
+  const steamLaunchUrl = `steam://run/252490//+connect%20${serverAddress}/`;
 
   const copyAddress = async () => {
     try {
@@ -182,7 +183,7 @@ function RustView() {
         </div>
 
         <div className="rust-v2-actions">
-          <a className="rust-v2-primary" href={`steam://connect/${serverAddress}`}>Play now <span>↗</span></a>
+          <a className="rust-v2-primary" href={steamLaunchUrl}>Play now <span>↗</span></a>
           <a href="https://rust-servers.net/server/178264/" target="_blank" rel="noreferrer">Server page <span>↗</span></a>
         </div>
       </section>
@@ -209,7 +210,7 @@ function RustView() {
           </div>
           <code>client.connect {serverAddress}</code>
           <button type="button" onClick={copyAddress}>{copied ? "COPIED" : "COPY COMMAND"}</button>
-          <a href={`steam://connect/${serverAddress}`}>CONNECT <span>↗</span></a>
+          <a href={steamLaunchUrl}>CONNECT <span>↗</span></a>
         </aside>
       </section>
     </div>
