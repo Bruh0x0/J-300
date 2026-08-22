@@ -1,11 +1,12 @@
 import Image from "next/image";
+import JuicyLanding from "./JuicyLanding";
 
-export default function Home() {
+export function LegacyHome() {
   return (
     <main>
       <header className="topbar">
         <a className="topbar-logo" href="#home" aria-label="Juicy home">
-          <Image src="/juicy-logo.png" alt="Juicy" width={230} height={124} priority />
+          <Image src="/assets/juicy-logo.png" alt="Juicy" width={230} height={124} priority />
         </a>
         <nav aria-label="Main navigation">
           <a href="#home">Home</a>
@@ -42,7 +43,7 @@ export default function Home() {
           <div className="circle-ring circle-ring-one"><span>RUST / LIVE</span></div>
           <div className="circle-ring circle-ring-two" />
           <div className="circle-core">
-            <Image src="/juicy-logo.png" alt="Juicy" width={900} height={485} priority />
+            <Image src="/assets/juicy-logo.png" alt="Juicy" width={900} height={485} priority />
           </div>
           <div className="circle-tag circle-tag-top"><span>SERVER</span><strong>ONLINE</strong></div>
           <div className="circle-tag circle-tag-bottom"><span>NEXT</span><strong>GTA RP</strong></div>
@@ -79,6 +80,60 @@ export default function Home() {
           <div><dt>Style</dt><dd>Custom modded</dd></div>
           <div><dt>Updates</dt><dd>In Discord</dd></div>
         </dl>
+      </section>
+
+      <section className="server-pulse" aria-labelledby="server-pulse-title">
+        <div className="server-pulse-brand" aria-hidden="true">
+          <div className="server-logo-orbit server-logo-orbit-one" />
+          <div className="server-logo-orbit server-logo-orbit-two" />
+          <div className="server-logo-glow" />
+          <span className="server-logo-spark server-logo-spark-one" />
+          <span className="server-logo-spark server-logo-spark-two" />
+          <Image src="/assets/juicy-logo.png" alt="" width={900} height={485} />
+          <span className="server-logo-stamp">10X / EU</span>
+        </div>
+
+        <div className="server-pulse-panel">
+          <div className="server-pulse-heading">
+            <div>
+              <p><i /> LIVE SERVER FEED</p>
+              <h2 id="server-pulse-title">JUICY IS<br /><span>RUNNING HOT.</span></h2>
+            </div>
+            <span className="server-pulse-number">01</span>
+          </div>
+
+          <a
+            className="server-status-banner"
+            href="https://rust-servers.net/server/178264/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="View JUICY on Rust-Servers.net"
+          >
+            <span className="server-status-live">LIVE DATA</span>
+            <img
+              src="https://rust-servers.net/server/178264/banners/banner-1.png"
+              alt="Live JUICY Rust server status"
+              loading="lazy"
+            />
+          </a>
+
+          <div className="server-connect-row">
+            <div>
+              <span>DIRECT CONNECT</span>
+              <strong>51.77.65.104:28015</strong>
+            </div>
+            <a href="steam://connect/51.77.65.104:28015">Open in Steam <span>↗</span></a>
+          </div>
+
+          <div className="server-pulse-links">
+            <a href="https://rust-servers.net/server/178264/" target="_blank" rel="noreferrer">
+              View server listing <span>↗</span>
+            </a>
+            <a href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
+              Join the Discord <span>↗</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       <section className="future-section" id="future">
@@ -137,7 +192,7 @@ export default function Home() {
       </section>
 
       <section className="join-section">
-        <Image src="/juicy-logo.png" alt="Juicy" width={410} height={220} />
+        <Image src="/assets/juicy-logo.png" alt="Juicy" width={410} height={220} />
         <p>Rust is online. Come meet everyone.</p>
         <a href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
           discord.gg/juicys <span>↗</span>
@@ -151,4 +206,8 @@ export default function Home() {
       </footer>
     </main>
   );
+}
+
+export default function Home() {
+  return <JuicyLanding />;
 }
