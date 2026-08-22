@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type View = "home" | "rust" | "future";
@@ -11,16 +12,35 @@ const navigation: { id: View; label: string; note: string }[] = [
   { id: "future", label: "Future", note: "What’s next" },
 ];
 
-export default function JuicyLanding() {
-  const [view, setView] = useState<View>("home");
+export default function JuicyLanding({ initialView = "home" }: { initialView?: View }) {
+  const router = useRouter();
+  const [view, setView] = useState<View>(initialView);
   const currentIndex = navigation.findIndex((item) => item.id === view);
+
+  const openView = (nextView: View) => {
+    setView(nextView);
+    router.push(`/${nextView}`, { scroll: false });
+  };
+
+  useEffect(() => {
+    setView(initialView);
+  }, [initialView]);
+
+  useEffect(() => {
+    const legacyView = window.location.hash.slice(1) as View;
+
+    if (navigation.some((item) => item.id === legacyView)) {
+      setView(legacyView);
+      router.replace(`/${legacyView}`, { scroll: false });
+    }
+  }, [router]);
 
   return (
     <main className={`site-shell view-${view}`}>
       <div className="site-grain" aria-hidden="true" />
 
       <header className="site-header">
-        <button className="brand" type="button" onClick={() => setView("home")} aria-label="Open the JUICY homepage">
+        <button className="brand" type="button" onClick={() => openView("home")} aria-label="Open the JUICY homepage">
           <Image src="/assets/juicy-logo.png" alt="JUICY" width={220} height={118} priority />
         </button>
 
@@ -30,7 +50,7 @@ export default function JuicyLanding() {
               key={item.id}
               type="button"
               className={view === item.id ? "active" : ""}
-              onClick={() => setView(item.id)}
+              onClick={() => openView(item.id)}
               aria-current={view === item.id ? "page" : undefined}
             >
               <span className="nav-copy"><b>{item.label}</b><small>{item.note}</small></span>
@@ -51,7 +71,7 @@ export default function JuicyLanding() {
       </div>
 
       <section className="view-stage" aria-live="polite">
-        {view === "home" && <HomeView onRust={() => setView("rust")} />}
+        {view === "home" && <HomeView onRust={() => openView("rust")} />}
         {view === "rust" && <RustView />}
         {view === "future" && <FutureView />}
       </section>
@@ -107,7 +127,7 @@ function HomeView({ onRust }: { onRust: () => void }) {
         <div className="logo-block-layer logo-layer-mid" />
         <div className="logo-block-face">
           <span className="logo-block-code">JUICY NETWORK</span>
-          <span className="logo-block-live"><i /> COMMUNITY ACTIVE</span>
+          <span className="logo-block-live"><i /> ACTIVE COMMUNITY</span>
           <span className="logo-scan-line" aria-hidden="true" />
           <Image src="/assets/juicy-logo.png" alt="JUICY" width={900} height={485} priority />
           <div className="logo-block-footer"><b>PLAY-JUICY.COM</b><span>COMMUNITY / 2026</span></div>

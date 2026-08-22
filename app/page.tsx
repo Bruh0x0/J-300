@@ -209,5 +209,5 @@ export function LegacyHome() {
 }
 
 export default function Home() {
-  return <JuicyLanding />;
+  return <JuicyLanding initialView="home" />;
 }
