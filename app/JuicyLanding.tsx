@@ -37,7 +37,9 @@ export default function JuicyLanding() {
             </button>
           ))}
           <a className="nav-discord-link" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-            <span className="nav-discord-mark" aria-hidden="true">↗</span>
+            <span className="nav-discord-mark" aria-hidden="true">
+              <Image src="/assets/discord-nav.png" alt="" width={96} height={96} />
+            </span>
             <span className="nav-copy"><b>Discord</b><small>Join community</small></span>
           </a>
         </nav>
