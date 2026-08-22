@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type View = "home" | "rust" | "future";
 
-const navigation: { id: View; label: string; number: string }[] = [
-  { id: "home", label: "Home", number: "1" },
-  { id: "rust", label: "Rust", number: "2" },
-  { id: "future", label: "What’s next", number: "3" },
+const navigation: { id: View; label: string; note: string }[] = [
+  { id: "home", label: "Home", note: "Community" },
+  { id: "rust", label: "Rust", note: "Live server" },
+  { id: "future", label: "Future", note: "What’s next" },
 ];
 
 export default function JuicyLanding() {
@@ -33,19 +33,19 @@ export default function JuicyLanding() {
               onClick={() => setView(item.id)}
               aria-current={view === item.id ? "page" : undefined}
             >
-              <span>{item.number}</span>
-              {item.label}
+              <span className="nav-copy"><b>{item.label}</b><small>{item.note}</small></span>
             </button>
           ))}
+          <a className="nav-discord-link" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
+            <span className="nav-discord-mark" aria-hidden="true">↗</span>
+            <span className="nav-copy"><b>Discord</b><small>Join community</small></span>
+          </a>
         </nav>
 
-        <a className="header-discord" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-          Join Discord <span>↗</span>
-        </a>
       </header>
 
       <div className="mobile-view-label" aria-live="polite">
-        {navigation[currentIndex].number} / {navigation[currentIndex].label}
+        {navigation[currentIndex].label}
       </div>
 
       <section className="view-stage" aria-live="polite">
@@ -57,105 +57,179 @@ export default function JuicyLanding() {
       <footer className="site-footer">
         <div className="footer-status"><i /> RUST SERVER ONLINE</div>
         <span className="footer-domain">PLAY-JUICY.COM</span>
-        <div className="footer-page">0{currentIndex + 1} / 03</div>
+        <div className="footer-page">{navigation[currentIndex].label.toUpperCase()} / JUICY</div>
       </footer>
     </main>
   );
 }
 
 function HomeView({ onRust }: { onRust: () => void }) {
+  const worlds = [
+    { id: "rust", eyebrow: "LIVE NOW", title: "JUICY RUST", text: "Custom modded survival" },
+    { id: "gta", eyebrow: "ON OUR RADAR", title: "GTA ROLEPLAY", text: "A future JUICY world" },
+    { id: "next", eyebrow: "COMMUNITY PICK", title: "WHAT’S NEXT?", text: "You help choose it" },
+  ];
+  const [worldIndex, setWorldIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setWorldIndex((current) => (current + 1) % worlds.length);
+    }, 5200);
+
+    return () => window.clearInterval(timer);
+  }, [worlds.length]);
+
+  const world = worlds[worldIndex];
+
   return (
-    <div className="screen home-screen">
-      <div className="home-copy">
-        <p className="eyebrow"><i /> JUICY RUST IS LIVE</p>
-        <h1>ONE CREW.<br /><span>MORE THAN ONE GAME.</span></h1>
+    <div className="screen home-screen community-home">
+      <section className="community-copy">
+        <p className="eyebrow"><i /> WELCOME TO JUICY</p>
+        <h1>WE&apos;RE A<br /><span>GAMING</span><br />COMMUNITY.</h1>
         <p className="lead">
-          JUICY is a gaming community built around the people in it. Rust is live now;
-          whatever comes next gets built with the same crew.
+          Meet people, find teammates, hang out and move between games without losing the crew.
+          Rust is live today. More worlds arrive when they&apos;re ready.
         </p>
         <div className="actions">
           <a className="button button-primary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-            Enter the Discord <span>↗</span>
+            Join the community <span>↗</span>
           </a>
           <button className="button button-quiet" type="button" onClick={onRust}>
-            View Rust server <span>→</span>
+            Our Rust server <span>→</span>
           </button>
         </div>
+      </section>
+
+      <div className="logo-block" aria-label="JUICY gaming community logo">
+        <div className="logo-block-layer logo-layer-back" />
+        <div className="logo-block-layer logo-layer-mid" />
+        <div className="logo-block-face">
+          <span className="logo-block-code">JUICY NETWORK</span>
+          <span className="logo-block-live"><i /> COMMUNITY ACTIVE</span>
+          <span className="logo-scan-line" aria-hidden="true" />
+          <Image src="/assets/juicy-logo.png" alt="JUICY" width={900} height={485} priority />
+          <div className="logo-block-footer"><b>PLAY-JUICY.COM</b><span>COMMUNITY / 2026</span></div>
+        </div>
+        <span className="logo-corner logo-corner-one" aria-hidden="true" />
+        <span className="logo-corner logo-corner-two" aria-hidden="true" />
       </div>
 
-      <div className="logo-scene" aria-label="JUICY gaming community">
-        <div className="logo-disc" />
-        <div className="logo-track track-one"><span>LIVE</span></div>
-        <div className="logo-track track-two" />
-        <Image src="/assets/juicy-logo.png" alt="JUICY" width={900} height={485} priority />
-        <div className="logo-note note-one"><b>10X</b><span>RUST</span></div>
-        <div className="logo-note note-two"><b>EU</b><span>ONLINE</span></div>
-      </div>
-
-      <div className="home-signoff">NO PAY-TO-WIN. NO FAKE ROADMAP.</div>
+      <section className="world-slider" aria-label="JUICY game worlds">
+        <div key={world.id} className={`world-slide world-slide-${world.id}`}>
+          <div className="world-slide-top"><span>{world.eyebrow}</span><b>{worldIndex + 1} / {worlds.length}</b></div>
+          <div className="world-slide-copy"><strong>{world.title}</strong><p>{world.text}</p></div>
+        </div>
+        <div className="world-controls">
+          <button type="button" onClick={() => setWorldIndex((worldIndex - 1 + worlds.length) % worlds.length)} aria-label="Previous game">←</button>
+          <div>{worlds.map((item, index) => <button key={item.id} type="button" className={index === worldIndex ? "active" : ""} onClick={() => setWorldIndex(index)} aria-label={`Show ${item.title}`} />)}</div>
+          <button type="button" onClick={() => setWorldIndex((worldIndex + 1) % worlds.length)} aria-label="Next game">→</button>
+        </div>
+      </section>
     </div>
   );
 }
 
 function RustView() {
+  const [copied, setCopied] = useState(false);
+  const serverAddress = "51.77.65.104:28015";
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(`client.connect ${serverAddress}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
-    <div className="screen rust-screen">
-      <div className="rust-copy">
-        <p className="eyebrow"><i /> SERVER ONLINE</p>
-        <h1>JUICY<br /><span>RUST</span></h1>
-        <p className="lead">Fast progression, custom plugins and room to play without a shop selling the win.</p>
+    <div className="screen rust-v2">
+      <section className="rust-v2-briefing">
+        <p className="rust-v2-kicker"><i /> JUICY RUST / EU</p>
+        <h1>BUILD.<br /><span>RAID.</span><br />REPEAT.</h1>
+        <p className="rust-v2-lead">
+          Fast progression, custom plugins and weekly wipes—built for players who want action without the grind.
+        </p>
 
-        <div className="rust-tags" aria-label="Server features">
-          <span>10X LOOT</span>
-          <span>6-MAN</span>
-          <span>NO BP</span>
-          <span>FRIDAY WIPES</span>
+        <div className="rust-v2-features" aria-label="Server features">
+          <span><b>10X</b><small>LOOT</small></span>
+          <span><b>6</b><small>MAX TEAM</small></span>
+          <span><b>0</b><small>BLUEPRINTS</small></span>
+          <span><b>FRI</b><small>WIPES</small></span>
         </div>
-      </div>
 
-      <aside className="connect-card">
-        <div className="connect-card-top">
-          <span>DIRECT CONNECT</span>
-          <b><i /> LIVE</b>
-        </div>
-        <strong>51.77.65.104:28015</strong>
-        <p>Open Rust, press F1 and paste:</p>
-        <code>client.connect 51.77.65.104:28015</code>
-        <div className="connect-actions">
-          <a href="steam://connect/51.77.65.104:28015">Connect now <span>↗</span></a>
+        <div className="rust-v2-actions">
+          <a className="rust-v2-primary" href={`steam://connect/${serverAddress}`}>Play now <span>↗</span></a>
           <a href="https://rust-servers.net/server/178264/" target="_blank" rel="noreferrer">Server page <span>↗</span></a>
         </div>
-        <small>Server news, wipe times and support are all in Discord.</small>
-      </aside>
+      </section>
+
+      <section className="rust-v2-stage" aria-label="JUICY Rust server">
+        <div className="rust-v2-art">
+          <div className="rust-v2-status">
+            <span><i /> SERVER ACTIVE</span>
+            <b>EU / MODDED / WEEKLY</b>
+          </div>
+
+          <div className="rust-v2-poster-copy">
+            <small>JUICY RUST</small>
+            <strong>NO BP.<br />NO WAITING.</strong>
+          </div>
+
+          <div className="rust-v2-ticker">10X LOOT <i /> 6-MAN TEAMS <i /> FRIDAY WIPES <i /> CUSTOM PLUGINS</div>
+        </div>
+
+        <aside className="rust-v2-connect">
+          <div className="rust-v2-address">
+            <small>DIRECT CONNECT</small>
+            <strong>{serverAddress}</strong>
+          </div>
+          <code>client.connect {serverAddress}</code>
+          <button type="button" onClick={copyAddress}>{copied ? "COPIED" : "COPY COMMAND"}</button>
+          <a href={`steam://connect/${serverAddress}`}>CONNECT <span>↗</span></a>
+        </aside>
+      </section>
     </div>
   );
 }
 
 function FutureView() {
   return (
-    <div className="screen future-screen">
-      <div className="future-copy">
-        <p className="eyebrow">AFTER RUST</p>
-        <h1>MORE WORLDS.<br /><span>WHEN THEY’RE READY.</span></h1>
-        <p className="lead">
-          GTA roleplay is on the list. The game after that is up to the community.
-          We would rather build one good server than five empty ones.
-        </p>
-        <a className="button button-primary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-          Be there for the vote <span>↗</span>
-        </a>
-      </div>
+    <div className="screen future-v2">
+      <article className="future-v2-gta">
+        <div className="future-v2-gta-top">
+          <span><i /> FRONT OF THE ROADMAP</span>
+          <b>GTA RP / CONCEPT</b>
+        </div>
 
-      <div className="future-cards">
-        <article className="future-card gta-future-card">
-          <span>IN THE FUTURE</span>
-          <div><b>GTA</b><strong>ROLEPLAY</strong></div>
-        </article>
-        <article className="future-card open-future-card">
-          <span>COMMUNITY PICK</span>
-          <div><b>?</b><strong>WHAT’S NEXT</strong></div>
-        </article>
-      </div>
+        <div className="future-v2-gta-copy">
+          <small>JUICY PRESENTS</small>
+          <h1>GTA<br />ROLEPLAY</h1>
+          <p>A future city shaped around the same community.</p>
+        </div>
+
+        <div className="future-v2-gta-footer">
+          <span>THE NEXT JUICY WORLD</span>
+          <a href="https://discord.gg/juicys" target="_blank" rel="noreferrer">FOLLOW THE PROJECT <b>↗</b></a>
+        </div>
+      </article>
+
+      <aside className="future-v2-roadmap">
+        <p className="future-v2-kicker">THE ROAD AHEAD</p>
+        <h2>ONE WORLD.<br /><span>AT A TIME.</span></h2>
+        <p className="future-v2-lead">Rust is live. GTA Roleplay stands at the front of what comes next.</p>
+
+        <div className="future-v2-timeline" aria-label="JUICY world roadmap">
+          <div className="is-live"><b>LIVE</b><span>RUST<small>PLAYABLE NOW</small></span></div>
+          <div className="is-next"><b>NEXT</b><span>GTA 6 ROLEPLAY<small>FRONT OF THE ROADMAP</small></span></div>
+          <div><b>LATER</b><span>MORE WORLDS<small>WHEN THEY’RE READY</small></span></div>
+        </div>
+
+        <a className="future-v2-discord" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
+          Join the conversation <span>↗</span>
+        </a>
+      </aside>
     </div>
   );
 }
