@@ -89,7 +89,6 @@ function HomeView({ onRust }: { onRust: () => void }) {
   const worlds = [
     { id: "rust", eyebrow: "LIVE NOW", title: "JUICY RUST", text: "Custom modded survival" },
     { id: "gta", eyebrow: "ON OUR RADAR", title: "GTA ROLEPLAY", text: "A future JUICY world" },
-    { id: "next", eyebrow: "COMMUNITY PICK", title: "WHAT’S NEXT?", text: "You help choose it" },
   ];
   const [worldIndex, setWorldIndex] = useState(0);
 
@@ -112,12 +111,12 @@ function HomeView({ onRust }: { onRust: () => void }) {
           Meet people, find teammates, hang out and move between games without losing the crew.
           Rust is live today. More worlds arrive when they&apos;re ready.
         </p>
-        <div className="actions">
-          <a className="button button-primary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-            Join the community <span>↗</span>
+        <div className="home-buttons">
+          <a className="home-button home-button-primary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
+            <span>Join Discord</span>
           </a>
-          <button className="button button-quiet" type="button" onClick={onRust}>
-            Our Rust server <span>→</span>
+          <button className="home-button home-button-secondary" type="button" onClick={onRust}>
+            <span>Rust Server</span>
           </button>
         </div>
       </section>
@@ -183,8 +182,8 @@ function RustView() {
         </div>
 
         <div className="rust-v2-actions">
-          <a className="rust-v2-primary" href={steamLaunchUrl}>Play now <span>↗</span></a>
-          <a href="https://rust-servers.net/server/178264/" target="_blank" rel="noreferrer">Server page <span>↗</span></a>
+          <a className="rust-v2-primary arcade-pill arcade-pill-primary" href={steamLaunchUrl}>Play now</a>
+          <a className="arcade-pill arcade-pill-secondary" href="https://rust-servers.net/server/178264/" target="_blank" rel="noreferrer">Server page</a>
         </div>
       </section>
 
@@ -209,8 +208,8 @@ function RustView() {
             <strong>{serverAddress}</strong>
           </div>
           <code>client.connect {serverAddress}</code>
-          <button type="button" onClick={copyAddress}>{copied ? "COPIED" : "COPY COMMAND"}</button>
-          <a href={steamLaunchUrl}>CONNECT <span>↗</span></a>
+          <button className="arcade-pill arcade-pill-secondary" type="button" onClick={copyAddress}>{copied ? "COPIED" : "COPY COMMAND"}</button>
+          <a className="arcade-pill arcade-pill-primary" href={steamLaunchUrl}>CONNECT</a>
         </aside>
       </section>
     </div>
@@ -234,7 +233,7 @@ function FutureView() {
 
         <div className="future-v2-gta-footer">
           <span>THE NEXT JUICY WORLD</span>
-          <a href="https://discord.gg/juicys" target="_blank" rel="noreferrer">FOLLOW THE PROJECT <b>↗</b></a>
+          <a className="arcade-pill arcade-pill-primary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">FOLLOW THE PROJECT</a>
         </div>
       </article>
 
@@ -249,8 +248,8 @@ function FutureView() {
           <div><b>LATER</b><span>MORE WORLDS<small>WHEN THEY’RE READY</small></span></div>
         </div>
 
-        <a className="future-v2-discord" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
-          Join the conversation <span>↗</span>
+        <a className="future-v2-discord arcade-pill arcade-pill-secondary" href="https://discord.gg/juicys" target="_blank" rel="noreferrer">
+          Join the conversation
         </a>
       </aside>
     </div>
